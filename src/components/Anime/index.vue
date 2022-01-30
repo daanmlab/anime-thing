@@ -38,8 +38,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~bulma";
 #Anime {
   position: fixed;
   padding: 7em 6vw 0 7em;
+
+  @include touch {
+    padding: 3em 2em 0 2em;
+    pointer-events: none;
+  }
 }
 </style>
