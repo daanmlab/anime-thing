@@ -20,17 +20,14 @@ export default {
 <style lang="scss" scoped>
 #Genres {
   .genre {
-    background-color: #00000055;
+    background-color: #ffffff3a;
     border-radius: 1em;
     padding: 0em 0.4em;
-    margin: 0.2em 0.25em;
+    margin: 0.2em 0.5em 0.2em 0;
     display: inline-block;
     font-size: 0.9em;
     font-weight: 800;
     color: #fff;
-    &:first-child {
-      margin-left: 0;
-    }
   }
 }
 </style>

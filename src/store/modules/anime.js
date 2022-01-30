@@ -18,29 +18,31 @@ export default {
     },
   },
   actions: {
-    async getNewAnimes({ commit }) {
-      commit("toggleLoading");
-      try {
-        const newAnimes = (await getRandomAnimes()).data.data;
+    async getNewAnimes({ commit, state }) {
+      if (!state.loading) {
+        commit("toggleLoading");
+        try {
+          const newAnimes = (await getRandomAnimes()).data.data;
 
-        // To preload all the images
-        await Promise.all(
-          newAnimes.map(
-            (a) =>
-              new Promise((res) => {
-                const preloadImage = new Image();
-                preloadImage.onload = res;
-                preloadImage.src = a.cover_image;
-              })
-          )
-        );
+          // To preload all the images
+          await Promise.all(
+            newAnimes.map(
+              (a) =>
+                new Promise((res) => {
+                  const preloadImage = new Image();
+                  preloadImage.onload = res;
+                  preloadImage.src = a.cover_image;
+                })
+            )
+          );
 
-        commit("addAnimes", { newAnimes });
-      } catch (e) {
-        console.error(e);
-        // TODO: add error handling
+          commit("addAnimes", { newAnimes });
+        } catch (e) {
+          console.error(e);
+          // TODO: add error handling
+        }
+        commit("toggleLoading");
       }
-      commit("toggleLoading");
     },
   },
   getters: {},

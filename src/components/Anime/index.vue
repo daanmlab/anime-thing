@@ -41,10 +41,18 @@ export default {
 @import "~bulma";
 #Anime {
   position: fixed;
-  padding: 7em 6vw 0 7em;
+  margin: 5em 6vw 0 5em;
+  padding: 2em;
+  border: #ffffff26 solid 3px;
+  border-radius: 1em;
+  box-shadow: 0 0 20px #0000001c;
+  color: #ffffffcf;
 
   @include touch {
-    padding: 3em 2em 0 2em;
+    padding: 3em 2em 2em 2em;
+    width: -webkit-fill-available;
+
+    margin: 2em;
     pointer-events: none;
   }
 }

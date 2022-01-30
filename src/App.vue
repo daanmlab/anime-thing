@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <!-- <pre>
-      {{ centerScreenX }}
+      {{ $store.state.anime.animes }}
     </pre> -->
-    <div v-if="$store.state.anime.selected" class="container is-widescreen">
+    <div class="container is-widescreen">
       <div class="main-container">
         <div class="list-container">
           <List ref="List" :animes="$store.state.anime.animes" />
@@ -72,9 +72,17 @@ export default {
       const imageElement =
         this.$refs.List.$el.getElementsByClassName("selected")[0];
 
-      const check = (el) =>
-        el.y + el.naturalHeight > this.centerScreenY &&
-        el.y < this.centerScreenY;
+      if (!imageElement) {
+        this.$store.commit("selectAnime", {
+          anime: this.$store.state.anime.animes[0],
+        });
+        return;
+      }
+
+      const check = (el) => {
+        const x = el.getBoundingClientRect();
+        return x.y + x.height > this.centerScreenY && x.y < this.centerScreenY;
+      };
 
       if (!check(imageElement)) {
         const newAnimeElement = Array.from(this.$refs.List.$el.children).find(
@@ -92,7 +100,10 @@ export default {
         }
       }
 
-      if (imageElement === imageElement.parentElement.lastElementChild) {
+      if (
+        imageElement.nextElementSibling ===
+        imageElement.parentElement.lastElementChild
+      ) {
         this.$store.dispatch("getNewAnimes");
       }
     },
@@ -100,8 +111,10 @@ export default {
       const imageElement =
         this.$refs.List.$el.getElementsByClassName("selected")[0];
 
-      const check = (el) =>
-        el.x + el.width > this.centerScreenX && el.x < this.centerScreenX;
+      const check = (el) => {
+        const x = el.getBoundingClientRect();
+        return x.x + x.width > this.centerScreenX && x.x < this.centerScreenX;
+      };
 
       if (!check(imageElement)) {
         const newAnimeElement = Array.from(this.$refs.List.$el.children).find(
@@ -119,7 +132,10 @@ export default {
         }
       }
 
-      if (imageElement === imageElement.parentElement.lastElementChild) {
+      if (
+        imageElement.nextElementSibling ===
+        imageElement.parentElement.lastElementChild
+      ) {
         this.$store.dispatch("getNewAnimes");
       }
     },
@@ -136,8 +152,11 @@ export default {
 
 <style lang="scss">
 @import "~bulma";
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 body {
+  background-color: #27292d;
+  min-height: 100vh;
   @include touch {
     overflow-y: hidden;
     overflow-x: scroll;
@@ -148,7 +167,7 @@ body {
 #app {
   .container {
     transition: background-color 500ms;
-
+    padding: 0 4em;
     .main-container {
       display: inline-grid;
       width: 100%;
@@ -163,6 +182,8 @@ body {
     }
 
     @include touch {
+      padding: 0;
+
       .main-container {
         display: inline-grid;
         padding-top: 1em;

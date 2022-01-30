@@ -1,19 +1,23 @@
 <template>
   <div id="List">
-    <img
-      v-for="anime in animes"
+    <span
+      v-for="anime in $store.state.anime.animes"
       @click="selectAnime(anime)"
-      class="custom--image"
+      class="custom--image-container"
       :class="{ selected: anime === $store.state.anime.selected }"
-      :src="anime.cover_image"
       :data-id="anime.id"
       :key="anime.id"
-    />
-    <template v-if="$store.state.anime.loading">
-      <div class="skeleton-container">
-        <span v-for="skeleton in 10" class="skeleton" :key="skeleton"></span>
-      </div>
-    </template>
+    >
+      <img class="custom--image" :src="anime.cover_image" />
+    </span>
+
+    <div class="skeleton-container">
+      <span
+        v-for="skeleton in $store.state.anime.loading ? 10 : 0"
+        class="skeleton"
+        :key="skeleton"
+      ></span>
+    </div>
   </div>
 </template>
 
@@ -39,21 +43,30 @@ export default {
 
 $gap: 10px;
 #List {
-  padding: calc(50vh - 100px) 0 calc(100vh - 280px);
+  padding: calc(50vh - 100px) 0 0;
   display: inline-flex;
   flex-direction: column;
   height: 100%;
 
-  img.custom--image {
-    width: 100%;
+  .custom--image-container {
     padding: $gap 0;
+    transition: transform 500ms, padding 500ms;
 
-    transition: transform 500ms, margin 500ms;
-    transform: scale(100%, 100%);
+    img.custom--image {
+      width: 100%;
+      border-radius: 0.5em;
+      box-shadow: 0 0 0 0 #0000004a;
+
+      transition: box-shadow 500ms;
+    }
 
     &.selected {
       transform: scale(120%, 120%);
       padding: $gap * 2 0;
+
+      img.custom--image {
+        box-shadow: 0 0 20px 4px #0000004a;
+      }
     }
   }
 
@@ -70,14 +83,16 @@ $gap: 10px;
   }
 
   .skeleton-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    height: calc(50vh - 30px);
+    overflow: hidden;
     .skeleton {
       width: 100%;
       height: 250px;
       margin: $gap 0;
+      border-radius: 0.5em;
 
-      background-color: #000;
+      background-color: rgba(255, 255, 255, 0.509);
 
       animation: pulse 2s ease infinite forwards;
     }
@@ -86,26 +101,38 @@ $gap: 10px;
   @include touch {
     padding: 1rem calc(50vw - 80px);
     flex-direction: row;
+    width: max-content;
 
-    img.custom--image {
-      // to counter stretching
-      min-width: min-content;
-      min-height: min-content;
-      margin: 0 0;
-      padding: 0 $gap * 2;
+    .custom--image-container {
+      padding: 0 $gap;
+      transition: transform 500ms, padding 500ms;
+
+      img.custom--image {
+        height: 100%;
+        min-width: min-content;
+        min-height: min-content;
+        border-radius: 3px;
+        box-shadow: 0 0 0 0 #0000004a;
+
+        transition: box-shadow 500ms;
+      }
 
       &.selected {
         transform: scale(120%, 120%);
-        margin: 0 0;
-      }
+        padding: 0 $gap * 2;
 
-      &:last-child {
-        padding-right: calc(50vw - 100px);
+        img.custom--image {
+          box-shadow: 0 0 20px 4px #0000004a;
+        }
       }
     }
     .skeleton-container {
+      display: contents;
+      width: calc(50vw - 30px);
+      overflow: hidden;
+      height: 100%;
       .skeleton {
-        display: block;
+        display: inline-block;
         width: 150px;
         height: 100%;
         margin: 0 $gap;

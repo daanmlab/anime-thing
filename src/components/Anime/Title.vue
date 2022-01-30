@@ -22,13 +22,14 @@ export default {
 
 <style lang="scss" scoped>
 #Title {
+  font-family: "Bebas Neue";
   h3 {
     font-size: 3em;
     line-height: 1.1;
   }
   h4 {
     font-weight: bold;
-    color: #00000055;
+    opacity: 0.8;
   }
 }
 </style>
