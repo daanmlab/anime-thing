@@ -37,7 +37,7 @@ export default {
 <style lang="scss">
 @import "~bulma";
 
-$gap: 20px;
+$gap: 10px;
 #List {
   padding: calc(50vh - 100px) 0 calc(100vh - 280px);
   display: inline-flex;
@@ -46,14 +46,14 @@ $gap: 20px;
 
   img.custom--image {
     width: 100%;
-    margin: 0 0;
+    padding: $gap 0;
 
     transition: transform 500ms, margin 500ms;
     transform: scale(100%, 100%);
 
     &.selected {
       transform: scale(120%, 120%);
-      margin: 20% 0;
+      padding: $gap * 2 0;
     }
   }
 
@@ -71,6 +71,7 @@ $gap: 20px;
 
   .skeleton-container {
     display: flex;
+    flex-direction: column;
     .skeleton {
       width: 100%;
       height: 250px;
@@ -91,7 +92,7 @@ $gap: 20px;
       min-width: min-content;
       min-height: min-content;
       margin: 0 0;
-      padding: 0 $gap;
+      padding: 0 $gap * 2;
 
       &.selected {
         transform: scale(120%, 120%);

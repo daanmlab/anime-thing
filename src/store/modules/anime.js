@@ -23,6 +23,18 @@ export default {
       try {
         const newAnimes = (await getRandomAnimes()).data.data;
 
+        // To preload all the images
+        await Promise.all(
+          newAnimes.map(
+            (a) =>
+              new Promise((res) => {
+                const preloadImage = new Image();
+                preloadImage.onload = res;
+                preloadImage.src = a.cover_image;
+              })
+          )
+        );
+
         commit("addAnimes", { newAnimes });
       } catch (e) {
         console.error(e);
