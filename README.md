@@ -26,8 +26,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Screenshots
 
-desktop:
+Desktop:
+\
 ![Screenshot](screenshot_desktop.png)
 
-mobile:
+Mobile:
+\
 ![Screenshot](screenshot_mobile.png)
